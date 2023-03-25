@@ -1,3 +1,6 @@
 django>3.2,<3.3
 pillow
 python-decouple
+djangorestframework
+markdown       # Markdown support for the browsable API.
+django-filter  # Filtering support
