@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Todo List {% endblock %}
+
+{% block content %}
+    
+    <div class="todo-container m-auto mt-4 p-2 shadow-lg">
+        <div class="modal-header p-5 border-bottom-0">
+            <h2 class="fw-bold mb-0">{{user.username}} Todo List</h2>
+            <a type="button" class="btn-close" href="{% url 'accounts:logout' %}"></a>
+        </div>
+        <div class="shadow p-4 mb-5 text-center rounded-3 bg-color1">
+            <form class=" input-group"  method="POST" action="{% url 'create_task' %}">
+                {% csrf_token %}
+                <input class=" form-control rounded-start-3" type="text" name="title" placeholder="Insert Task...">
+                <button class=" btn btn-primary input-group-addon" type="submit">Submit</button>
+            </form>
+        </div>
+
+        {% for task in tasks %}
+        <div class="p-4 border-1 rounded-3 shadow rounded-2 bg-color2 mb-4 options input-group">
+            {% if task.complete == True %}
+              <p class=" d-inline-block me-2 bg-body p-2 rounded-3 mb-1 form-control">{{task.title}} : <i class="fa fa-check" style="color: green;"></i></p>
+            {% else %}
+              <p class=" d-inline-block me-2 bg-body p-2 rounded-3 mb-1 form-control">{{task.title}}</p>
+            {% endif %}
+            <div>
+                <a href="{% url 'delete_task' task.id %}"><button class=" rounded-3 btn btn-danger d-inline-block" type="submit"><i class="fa fa-trash"></i></button></a>
+                <div style="width: 40px; height:38px;" class="btn bg-primary d-inline-block rounded-3 text-center p-1 option-act"><i class="fa fa-edit" style="color: white;"></i></div>
+            </div>
+            <div class="option-list card option-list-hidden">
+                <div class=" card-body border-bottom border-1 border-primary"><a href="{% url 'update_task' task.id %}" class=" text-decoration-none text-black">Edit</a></div>
+                <div class=" card-body"><a href="{% url 'complete_task' task.id %}" class=" text-decoration-none text-black">Done</a></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+{% endblock %}
